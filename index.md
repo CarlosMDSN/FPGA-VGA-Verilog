@@ -27,8 +27,20 @@ Perhaps add a picture of your demo. Guideline: 1/2 sentences.
 
 ## **My VGA Design Edit**
 Introduce your own design idea. Consider how complex/achievabble this might be or otherwise. Reference any research you do online (use hyperlinks).
+
+For my own VGA design, I decided to adapt the original colour stripe template to create an 8 × 8 chessboard pattern. The aim was to use the existing VGA architecture on the Basys 3 FPGA board while modifying the Verilog code to generate a different image. I chose a chessboard because it allowed me to explore how pixel coordinates can be used to divide the screen into individual sections and generate alternating colours.
+
+
+The chessboard is designed to contain 64 equally sized squares, with each square measuring 80 pixels horizontally and 60 pixels vertically. This allows the complete chessboard to fit within 640 x 480 VGA display resolution.
+
 ### **Code Adaptation**
 Briefly show how you changed the template code to display a different image. Demonstrate your understanding. Guideline: 1-2 short paragraphs.
+
+The original template used the column coordinate (col) to divide the 640 x 480 display into eight vertical stripes, each 80 pixels wide. It used a series of (if) and (else if) statements to check which section of the screen the current pixel belonged to. Each condition assigned a different combination of red, green and blue values.
+
+To adapt this into a chessboard, i changed the colour selection logic so that it uses both row (row) and column (col) coordinates. I introduced two local parameters, (SQUARE_WIDTH) and (SQUARE_HEIGHT), set to 80 and 60. These divide the 640 x 480 screen into 64 equally sized squares. I then introduced the (square_col0 and (square_row) wires, which calculate which chessboard square the current pixel belongs to. An XOR(^) operation is used to alternate between black and white squares depending on the position.
+
+
 ### **Simulation**
 Show how you simulated your own design. Are there any things to note? Demonstrate your understanding. Add a screenshot. Guideline: 1-2 short paragraphs.
 ### **Synthesis**

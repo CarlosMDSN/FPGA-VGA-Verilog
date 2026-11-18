@@ -15,7 +15,7 @@ Summarise the project set-up and design flow. Include a screenshot of your own s
 
 The project was developed using Xilinx Vivado and the Digilent Basys 3 FPGA development board. The supplied VGA project template was used as the starting point for the design. The project included Verilog source files responsible for generating the VGA timing signals and controlling the RGB colour outputs.
 
-<img src="https://raw.githubusercontent.com/melgineer/fpga-vga-verilog/main/docs/assets/images/VGAPrjSum.png">
+<img src="docs/assets/images1/Proj-Summary.png">
 ### **Template Code**
 Outline the structure and design of the Verilog code templates you were given. What do they do? Include reference to how a VGA interface works. Guideline: 2/3 short paragraphs, consider including screenshot(s).
 ### **Simulation**

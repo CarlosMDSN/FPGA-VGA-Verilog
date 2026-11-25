@@ -31,7 +31,7 @@ The module produces three 4-bit outputs for the red, green and blue colour chann
 
 **ORIGINAL COLOUR GENERATION LOGIC**
 
-The original template uses a combinational always@* block to determine the RGB colour values based on the current column coordinate (col). A series of if and else if statements checks which horizontal section of the display the current pixel belongs to.
+The original template uses a combinational 'always@*' block to determine the RGB colour values based on the current column coordinate (col). A series of if and else if statements checks which horizontal section of the display the current pixel belongs to.
 
 <img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/SOC-SCREENSHOT2.png">
 

@@ -16,7 +16,7 @@ The project was developed using Xilinx Vivado and the Digilent Basys 3 FPGA deve
 
 The project was configured in Vivado so that the design could be simulated, synthesised and implemented for the Basys 3 FPGA. This provided the foundation for understanding how the VGA display operates before modifying the original graphics logic.
 
-<img src="docs/assets/images1/Proj-Summary.png">
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/Proj-Summary.png">
 ### **Template Code**
 
 The supplied Verilog code was used as the starting point for my VGA project. Before making any modifications, I investigated how the original `ColourStripes` module generated different colours across the display. I focused on understanding the module inputs and outputs, the combinational colour-generation logic and the registered RGB outputs. This helped me understand how the original design worked and provided a foundation for developing my own graphical patterns.
@@ -27,17 +27,17 @@ The original design uses a verilog module called ColourStripes, which is respons
 
 The module produces three 4-bit outputs for the red, green and blue colour channels. These RGB outputs determine the colour of each pixel displayed on the monitor. The use of 4 bits per colour channel allows 16 possible intensity levels each individual colour.
 
-<img src="docs/assets/images1/SOC-SCREENSHOT1.png">
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/SOC-SCREENSHOT1.png">
 
 **ORIGINAL COLOUR GENERATION LOGIC**
 
 The original template uses a combinational always@* block to determine the RGB colour values based on the current column coordinate (col). A series of if and else if statements checks which horizontal section of the display the current pixel belongs to.
 
-<img src="docs/assets/images1/SOC-SCREENSHOT2.png">
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/SOC-SCREENSHOT2.png">
 
 The 640-pixel horizontal display is divided into eight sections, each 80 pixels wide. Each section is assigned a different RGB combination to produce a vertical colour stripe, for example, the first section uses zero values for all three colour channels, producing black, while the second section sets the blue channel to its maximum value, producing blue.
 
-<img src ="docs/assets/images1/VGA-TEMPLATE.jpeg">
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/VGA-TEMPLATE.jpeg">
 
 This approach demonstrates how pixel coordinates can be used to divide a VGA display into separate regions and generate different colours.
 
@@ -45,13 +45,13 @@ This approach demonstrates how pixel coordinates can be used to divide a VGA dis
 
 The RGB outputs are registered using a clocked always block. The block is triggered by either the rising edge of the clock or the rising edge of the reset signal. This means the RGB registers update on each positive clock edge, while the reset can immediately clear the outputs.
 
-<img src="docs/assets/images1/SOC-SCREENSHOT3.png">
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/SOC-SCREENSHOT3.png">
 
 When reset is activated all three RGB registers are set to zero, producing black. Otherwise, the registers take the values calculated by the combinational colour generation logic, This separates the colour calculation from the registered outputs and ensures that the RGB signals are updated in a controlled manner.
 
 **ASSIGNING THE RGB OUTPUTS**
 
-<img src="docs/assets/images1/SOC-SCREENSHOT4.png">
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/SOC-SCREENSHOT4.png">
 
 The final section of the module uses continuous assignments to connect the registered RGB values to the module outputs. This makes the calculated red, green and blue values available to the VGA display interface, The three outputs work together to determine the colour of the current pixel.
 
@@ -59,7 +59,7 @@ The final section of the module uses continuous assignments to connect the regis
 
 The original VGA design was simulated using the testbench supplied by the lecturer. I did not make any modifications to the testbench, as it already provided the necessary inputs to test the functionality of the ColourStripes module.
 
-
+add SIMULATION PICTURE HERE
 
 By observing the RGB outputs as the column coordinate changed, I could verify how the design selected different colours for each of the eight horizontal sections of the display. This allowed me to check the behaviour of the original Verilog code before making any modifications to the design.
 
@@ -67,26 +67,34 @@ By observing the RGB outputs as the column coordinate changed, I could verify ho
 
 After successfully simulating the original VGA design, I proceeded to synthesise the Verilog code using Vivado. The purpose of synthesis is to convert the Verilog description into a hardware representation that can be implemented on the FPGA, During this process, Vivado analyses the design and determines which FPGA resources are required to implement its functionality. These include Look-Up Tables (LUTs), which are used to implement combinational logic, and flip-flops, which store values and implement sequential logic.
 
-
+ADD UTILIZATION PICTURE HERE
 
 ### **Demonstration**
-Perhaps add a picture of your demo. Guideline: 1/2 sentences.
+
+After completing the simulation, synthesis and implementation stages in vivado, I programmed the original VGA design onto the Digilent Basys 3 development board. The board was connected to a VGA-compatible monitor to check that the design operated correctly on physical hardware.
+
+ADD DEMO PHOTO HERE
+
+This demonstration allowed me to verify that the original Verilog design could generate a VGA display output using the FPGA. Successfully demonstrating the supplied design provided a starting point for developing and testing my own graphical patterns.
 
 ## **My VGA Design Edit**
-Introduce your own design idea. Consider how complex/achievabble this might be or otherwise. Reference any research you do online (use hyperlinks).
 
-For my own VGA design, I decided to adapt the original colour stripe template to create an 8 × 8 chessboard pattern. The aim was to use the existing VGA architecture on the Basys 3 FPGA board while modifying the Verilog code to generate a different image. I chose a chessboard because it allowed me to explore how pixel coordinates can be used to divide the screen into individual sections and generate alternating colours.
+After successfully demonstrating the original VGA template, I began experimenting with the Verilog colour-generation logic to create my own graphical designs. I wanted to develop my understanding of how pixel coordinates could be used to divide the display into different regions and generate more complex images.
 
+I approached this development in stages, starting with a simple horizontal red and black colour split. I then progressed to a multicoloured chessboard pattern before developing my final black-and-white 8 × 8 chessboard. Each stage allowed me to experiment with the existing VGA architecture and build upon my understanding of Verilog and FPGA design.
 
-The chessboard is designed to contain 64 equally sized squares, with each square measuring 80 pixels horizontally and 60 pixels vertically. This allows the complete chessboard to fit within 640 x 480 VGA display resolution.
+### **Development Stage 1**
+
+**HORIZONTAL RED AND BLACK PATTERN**
+
+My first modification to the original VGA template was to create a simple horizontal colour pattern. I wanted to understand how the pixel coordinates could be used to divide the display into separate regions and assign different colours to them.
+
+I used the vertical pixel coordinate (row) to divide the 640 × 480 display into two equal sections. The upper half of the screen displayed red, while the lower half displayed black. This was achieved by checking whether the current row coordinate was above or below the halfway point of the display.
+
+This was my first step towards developing my own VGA graphics. It helped me understand how conditional statements could be used in Verilog to control the RGB outputs based on the position of each pixel.
 
 ### **Code Adaptation**
 Briefly show how you changed the template code to display a different image. Demonstrate your understanding. Guideline: 1-2 short paragraphs.
-
-The original template used the column coordinate (col) to divide the 640 x 480 display into eight vertical stripes, each 80 pixels wide. It used a series of (if) and (else if) statements to check which section of the screen the current pixel belonged to. Each condition assigned a different combination of red, green and blue values.
-
-To adapt this into a chessboard, i changed the colour selection logic so that it uses both row (row) and column (col) coordinates. I introduced two local parameters, (SQUARE_WIDTH) and (SQUARE_HEIGHT), set to 80 and 60. These divide the 640 x 480 screen into 64 equally sized squares. I then introduced the (square_col0 and (square_row) wires, which calculate which chessboard square the current pixel belongs to. An XOR(^) operation is used to alternate between black and white squares depending on the position.
-
 
 ### **Simulation**
 Show how you simulated your own design. Are there any things to note? Demonstrate your understanding. Add a screenshot. Guideline: 1-2 short paragraphs.

@@ -180,6 +180,48 @@ The demonstration was successful, with the complete black-and-white 8 × 8 chess
 
 Successfully demonstrating the final design was the final stage of my development process and showed that I could adapt the supplied VGA template to create my own working graphical output.
 
+### **Challenges and Problem Solving**
+
+During this project, I encountered several challenges while adapting the original VGA template to create my own graphical designs. The main difficulties involved understanding the supplied Verilog code, working with pixel coordinates and learning how to use logical operations to generate the chessboard pattern.
+
+**Understanding the original verilog code**
+
+One of my initial challenges was understanding how the supplied VGA template worked. Although the original code already generated colour stripes, I needed to understand how the different sections of the Verilog module controlled the RGB outputs.
+
+I spent time examining the module inputs and outputs, the combinational logic and the registered RGB signals. This helped me understand the difference between combinational and sequential logic and how they work together to generate the VGA display.
+
+**Working with pixel Coordinates**
+
+Another challenge was understanding how the horizontal (col) and vertical (row) coordinates could be used to generate graphical patterns. My first design only required the vertical coordinate to divide the screen into a red upper half and a black lower half.
+
+However, when developing the chessboard, I needed to consider both coordinates. I overcame this by dividing the 640 × 480 display into eight columns and eight rows. I used square dimensions of 80 × 60 pixels to calculate the position of each square.
+
+This helped me understand how pixel coordinates can be used to identify individual regions of a display and generate more complex images.
+
+**Understanding the XOR operation**
+
+I also needed to develop my understanding of the XOR operation used in my final chessboard design, initially it was not obvious how a simple logical operation could generate an alternating pattern across 64 squares.
+
+By examining the least significant bits of the square row and column indices interact, I understood how XORR produces different results depending on whether the two bits are equal or different. This allowed me to generate alternating black-and-white squares without individual conditions for every square.
+
+**Overall Problem Solving**
+
+Working through these challenges helped me develop my understanding of Verilog and FPGA design. Rather than making changes to the original template all at once, I developed my design in stages, starting with a simple horizontal colour pattern before progressing to a multicoloured chessboard and finally my black-and-white design.
+
+Testing the design through simulation, synthesis and implementation allowed me to check my modifications before demonstrating the final result on the Basys 3 development board. Successfully displaying the complete chessboard confirmed that my final design was working as intended.
+
+### **Conclusion**
+
+This project allowed me to develop my understanding of FPGA design, verilog programming and VGA display generation and the basys 3 development board.
+
+Starting with the supplied VGA template, I gradually developed my own graphical designs, beginning with a horizontal red-and-black pattern, progressing to a multicoloured chessboard and finally producing a traditional black-and-white 8 x 8 chessboard.
+
+Through this process, I gained a better understanding of how pixel coordinates, combinational logic, sequential logic and RGB outputs work together to generate images on a VGA display. I also developed my understanding of mathematical calculations and XOR operations through the implementation of my final chessboard pattern.
+
+I successfully simulated, synthesized and implemented my final design in vivado before demonstrating it on the basys 3 FPG board. The completed chessboard displayed correctly on the VGA monitor, achieving the main objective of the project.
+
+Overall, this project improved my confidence in modifying existing verilog designs, solving technical problems and using FPGA development tools to create and demonstrate my own hardware-based graphical application
+
 ## **More Markdown Basics**
 This is a paragraph. Add an empty line to start a new paragraph.
 

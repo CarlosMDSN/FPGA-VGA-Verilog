@@ -23,6 +23,12 @@ The project was configured in Vivado so that the design could be simulated, synt
 <img src="docs/assets/images1/Proj-Summary.png">
 ### **Template Code**
 Outline the structure and design of the Verilog code templates you were given. What do they do? Include reference to how a VGA interface works. Guideline: 2/3 short paragraphs, consider including screenshot(s).
+<img src="docs/assets/images1/SOC-SCREENSHOT1.png">
+
+The original design uses a verilog module called ColourStripes, which is responsible for generating the RGB colour values displayed on the VGA monitor. The module receives a clock signal (clk), a reset signal (rst) and two 11-bit inputs called row and col. These inputs represent the current vertical and horizontal pixel coordinates on the display.
+
+The module produces three 4-bit outputs for the red, green and blue colour channels. These RGB outputs determine the colour of each pixel displayed on the monitor. The use of 4 bits per colour channel allows 16 possible intensity levels each individual colour.
+
 ### **Simulation**
 Explain the simulation process. Reference any important details, include a well-selected screenshot of the simulation. Guideline: 1/2 short paragraphs.
 ### **Synthesis**

@@ -122,20 +122,63 @@ I used the horizontal (`col`) and vertical (`row`) pixel coordinates to calculat
 
 ### **Code Adaptation**
 
+**CHESSBOARD DIMENSIONS**
+
 I introduced two local parameters called `SQUARE_WIDTH` and `SQUARE_HEIGHT` to define the dimensions of each chessboard square. These were set to 80 and 60 pixels respectively.
 
 I selected these dimensions because the VGA display has a resolution of 640 × 480 pixels. Dividing the horizontal resolution by 80 gives eight columns, while dividing the vertical resolution by 60 gives eight rows. This produces a complete 8 × 8 chessboard containing 64 equally sized squares.
 
-<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/CHESSBOARD.jpeg">
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/DIMENSIONS.png">
 
 Using local parameters also makes the design easier to modify because the square dimensions can be changed without rewriting the coordinate calculations.
 
+**PIXEL COORDINATE CALCULATIONS**
+
+To identify which chessboard square was being displayed, I introduced two wires called `square_col` and `square_row`. These calculate the horizontal and vertical square positions by dividing the current pixel coordinates by the corresponding square dimensions.
+
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/PIXEL-COR.png">
+
+For example, if the current column coordinate is 170, dividing it by 80 gives a square column index of 2. Similarly, a row coordinate of 130 divided by 60 gives a square row index of 2.
+
+The resulting values identify the position of the current pixel within the 8 × 8 chessboard. The three-bit width is sufficient because each coordinate can represent eight possible square positions, numbered 0 to 7.
+
+**XOR COLOUR SELECTION**
+
+I used an XOR operation to generate the alternating chessboard pattern. The operation compares the least significant bits of the horizontal and vertical square indices.
+
+When the two bits are different, the XOR output is 1. When they are the same, the output is 0. This produces an alternating pattern because neighbouring squares have different parity values.
+
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/XOR.png">
+
+The resulting 'chess_square' signal is used by the colour-generation logic to decide whether the current square should be black or white. This approach is more efficient and easier to maintain than writing separate conditional statements for all 64 squares.
+
 ### **Simulation**
-Show how you simulated your own design. Are there any things to note? Demonstrate your understanding. Add a screenshot. Guideline: 1-2 short paragraphs.
+
+After completing my black-and-white chessboard design, I used Xilinx Vivado to simulate the modified Verilog code. I used the testbench supplied by the lecturer without making any modifications, allowing me to test my adapted design using the original simulation environment.
+
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/CHESS-SIM.png">
+
+The simulation allowed me to verify the coordinate calculations and XOR logic used to generate the alternating chessboard pattern. The RGB outputs were assigned maximum values (1111) for white squares and zero values (0000) for black squares. Successfully completing the simulation gave me confidence that the modified design was behaving as expected before moving on to synthesis and hardware implementation.
+
 ### **Synthesis**
-Describe the synthesis & implementation outputs for your design, are there any differences to that of the original design? Guideline 1-2 short paragraphs.
+
+After successfully simulating my final chessboard design, I proceeded to synthesise the modified Verilog code using Xilinx Vivado. The synthesis process converted my Verilog design into a hardware representation that could be implemented on the Basys 3 FPGA development board.
+
+Compared with the original template, my final design contained additional logic to calculate the position of each chessboard square. This included the use of the horizontal and vertical pixel coordinates, division by the square dimensions and an XOR operation to generate the alternating black-and-white pattern.
+
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/CH-UTILIZATION.png">
+
+Once synthesis had completed successfully, I proceeded with the implementation stage. Vivado performed placement and routing to prepare the design for programming onto the FPGA. The implementation completed successfully, allowing me to move forward with the physical hardware demonstration.
+
 ### **Demonstration**
-If you get your own design working on the Basys3 board, take a picture! Guideline: 1-2 sentences.
+
+After successfully completing the simulation, synthesis and implementation stages, I programmed my final chessboard design onto the Digilent Basys 3 FPGA development board. I connected the board to a VGA monitor to test the design using physical hardware.
+
+The demonstration was successful, with the complete black-and-white 8 × 8 chessboard displaying correctly on the monitor. This confirmed that my modified Verilog code was working as intended and that the FPGA could generate the required graphical pattern using the VGA interface.
+
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/CHESSBOARD.jpeg">
+
+Successfully demonstrating the final design was the final stage of my development process and showed that I could adapt the supplied VGA template to create my own working graphical output.
 
 ## **More Markdown Basics**
 This is a paragraph. Add an empty line to start a new paragraph.

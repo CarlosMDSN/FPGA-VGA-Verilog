@@ -59,7 +59,7 @@ The final section of the module uses continuous assignments to connect the regis
 
 The original VGA design was simulated using the testbench supplied by the lecturer. I did not make any modifications to the testbench, as it already provided the necessary inputs to test the functionality of the ColourStripes module.
 
-add SIMULATION PICTURE HERE
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/SOC-SIMULATION.png">
 
 By observing the RGB outputs as the column coordinate changed, I could verify how the design selected different colours for each of the eight horizontal sections of the display. This allowed me to check the behaviour of the original Verilog code before making any modifications to the design.
 
@@ -67,13 +67,13 @@ By observing the RGB outputs as the column coordinate changed, I could verify ho
 
 After successfully simulating the original VGA design, I proceeded to synthesise the Verilog code using Vivado. The purpose of synthesis is to convert the Verilog description into a hardware representation that can be implemented on the FPGA, During this process, Vivado analyses the design and determines which FPGA resources are required to implement its functionality. These include Look-Up Tables (LUTs), which are used to implement combinational logic, and flip-flops, which store values and implement sequential logic.
 
-ADD UTILIZATION PICTURE HERE
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/SOC-UTILIZATION.png">
 
 ### **Demonstration**
 
 After completing the simulation, synthesis and implementation stages in vivado, I programmed the original VGA design onto the Digilent Basys 3 development board. The board was connected to a VGA-compatible monitor to check that the design operated correctly on physical hardware.
 
-ADD DEMO PHOTO HERE
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/SOC-DEMO.jpeg">
 
 This demonstration allowed me to verify that the original Verilog design could generate a VGA display output using the FPGA. Successfully demonstrating the supplied design provided a starting point for developing and testing my own graphical patterns.
 
@@ -91,10 +91,44 @@ My first modification to the original VGA template was to create a simple horizo
 
 I used the vertical pixel coordinate (row) to divide the 640 × 480 display into two equal sections. The upper half of the screen displayed red, while the lower half displayed black. This was achieved by checking whether the current row coordinate was above or below the halfway point of the display.
 
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/RED&BLACK.jpeg">
+
 This was my first step towards developing my own VGA graphics. It helped me understand how conditional statements could be used in Verilog to control the RGB outputs based on the position of each pixel.
 
+### **Development Stage 2**
+
+**MULTICOLOURED CHESSBOARD**
+
+After completing the horizontal colour pattern, I decided to make the design more complex by introducing a chessboard-style image. Instead of displaying just two large sections, I wanted to divide the screen into smaller squares with alternating colours.
+
+In this version, the upper half of the display contained alternating red and yellow squares, while the lower half contained alternating black and blue squares. This created a more detailed image and required the colour-generation logic to consider the position of the pixels in both directions.
+
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/YELLOW&BLUE.jpeg">
+
+Developing this design helped me explore how horizontal and vertical pixel positions could be combined to generate a two-dimensional graphical pattern. It also provided a stepping stone towards my final black-and-white chessboard design.
+
+### **Development Stage 3** 
+
+**Final Black-and-White Chessboard**
+
+For my final design, I decided to develop a traditional black-and-white chessboard consisting of eight rows and eight columns. I chose this design because it allowed me to explore how mathematical calculations and logical operations could be used to generate a complete graphical pattern.
+
+The display resolution is 640 × 480 pixels, so I divided the screen into 64 equally sized squares. Each square measures 80 pixels horizontally and 60 pixels vertically. This ensures that eight squares fit across the width and eight squares fit down the height of the display.
+
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/CHESSBOARD.jpeg">
+
+I used the horizontal (`col`) and vertical (`row`) pixel coordinates to calculate which square was currently being displayed. An XOR operation was then used to alternate between black and white squares. This allowed me to generate the complete chessboard using a small amount of Verilog code instead of writing individual conditions for all 64 squares.
+
+
 ### **Code Adaptation**
-Briefly show how you changed the template code to display a different image. Demonstrate your understanding. Guideline: 1-2 short paragraphs.
+
+I introduced two local parameters called `SQUARE_WIDTH` and `SQUARE_HEIGHT` to define the dimensions of each chessboard square. These were set to 80 and 60 pixels respectively.
+
+I selected these dimensions because the VGA display has a resolution of 640 × 480 pixels. Dividing the horizontal resolution by 80 gives eight columns, while dividing the vertical resolution by 60 gives eight rows. This produces a complete 8 × 8 chessboard containing 64 equally sized squares.
+
+<img src="https://raw.githubusercontent.com/CarlosMDSN/FPGA-VGA-Verilog/main/docs/assets/images1/CHESSBOARD.jpeg">
+
+Using local parameters also makes the design easier to modify because the square dimensions can be changed without rewriting the coordinate calculations.
 
 ### **Simulation**
 Show how you simulated your own design. Are there any things to note? Demonstrate your understanding. Add a screenshot. Guideline: 1-2 short paragraphs.
